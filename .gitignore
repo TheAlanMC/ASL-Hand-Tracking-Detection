@@ -3,3 +3,4 @@
 asl/
 asl_test/
 asl_train/
+.gitignore
