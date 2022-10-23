@@ -1,0 +1,5 @@
+.DS_Store
+.ipynb_checkpoints
+asl/
+asl_test/
+asl_train/
