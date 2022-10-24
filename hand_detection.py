@@ -1,13 +1,24 @@
+import time
 import cv2
 import mediapipe as mp 
 import joblib
 import numpy as np 
+from gtts import gTTS
+import os
+from mpyg321.MPyg123Player import MPyg123Player
+
+
+# temporizador para introducir cada letra
+mytext = ''
+prev_time = time.time()
+curr_time = time.time()
+player = MPyg123Player()
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 # Inicializamos las manos
-hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.5)
+hands = mp_hands.Hands(min_detection_confidence=0.7,max_num_hands=1, min_tracking_confidence=0.5)
 
 cap = cv2.VideoCapture(0)
 
@@ -49,7 +60,8 @@ while cap.isOpened():
     success, image = cap.read()
     
     image = cv2.flip(image, 1)
-    
+    h, w, c = image.shape                 # altura, anchura y profundidad de la imagen
+
     if not success:
         break
 
@@ -75,9 +87,33 @@ while cap.isOpened():
         if cleaned_landmark:
             clf = joblib.load('model.pkl')
             y_pred = clf.predict(cleaned_landmark)
-            image = cv2.putText(image, str(y_pred[0]), (50,150), cv2.FONT_HERSHEY_SIMPLEX,  3, (0,0,255), 2, cv2.LINE_AA) 
-        
-    cv2.imshow('MediaPipe Hands', image)
+            if(str(y_pred[0]) == 'SPACE' and  mytext != ''):
+                language = 'es'
+                print(mytext)
+                myobj = gTTS(text=mytext, lang=language, slow=False)
+                myobj.save("text.mp3")
+                # os.system("mpyg321 text.mp3")
+                player.play_song("text.mp3")
+                mytext = ''
+            else:
+                cv2.putText(image, str(y_pred[0]), (w-300, 70), cv2.FONT_HERSHEY_DUPLEX, 3, (52, 195, 235), 3)
+                curr_time = time.time()
+                diff_time = curr_time - prev_time
+                if diff_time < 1:
+                    display_time = 3
+                elif diff_time < 2:
+                    display_time = 2
+                elif diff_time <= 3:
+                    display_time = 1
+                cv2.putText(image, str(display_time), (10,70), cv2.FONT_HERSHEY_DUPLEX, 3, (0,0,255), 3)
+        if curr_time - prev_time > 3:
+            mytext += str(y_pred[0])
+            prev_time = time.time()
+            cv2.putText(image, "Ok", (w//2 - 200,h//2), cv2.FONT_HERSHEY_DUPLEX, 3, (235, 107, 52), 3)
+    else:
+        prev_time = time.time()
+    cv2.putText(image, mytext, (10, h - 50), cv2.FONT_HERSHEY_DUPLEX, 3, (235, 143, 52), 3)
+    cv2.imshow('Detecion de manos', image)
     
     if cv2.waitKey(5) & 0xFF == 27:
         break

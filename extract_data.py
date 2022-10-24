@@ -57,8 +57,8 @@ def image_processed(file_path):
 def make_csv():
     
     # Creamos un dataframe vacío
-    mypath = 'asl_test'
-    file_name = open('american_test.csv', 'w')
+    mypath = 'asl_train'
+    file_name = open('american_train_.csv', 'w')
 
     # Recorremos las carpetas
     for root, dirs, files in os.walk(mypath):
