@@ -60,6 +60,8 @@ while cap.isOpened():
     success, image = cap.read()
     
     image = cv2.flip(image, 1)
+    #image = cv2.flip(image, -1)
+
     h, w, c = image.shape                 # altura, anchura y profundidad de la imagen
 
     if not success:
@@ -96,7 +98,7 @@ while cap.isOpened():
                 player.play_song("text.mp3")
                 mytext = ''
             else:
-                cv2.putText(image, str(y_pred[0]), (w-300, 70), cv2.FONT_HERSHEY_DUPLEX, 3, (52, 195, 235), 3)
+                cv2.putText(image, str(y_pred[0]), (w-10, 70), cv2.FONT_HERSHEY_DUPLEX, 3, (52, 195, 235), 3)
                 curr_time = time.time()
                 diff_time = curr_time - prev_time
                 if diff_time < 1:
@@ -109,7 +111,7 @@ while cap.isOpened():
         if curr_time - prev_time > 3:
             mytext += str(y_pred[0])
             prev_time = time.time()
-            cv2.putText(image, "Ok", (w//2 - 200,h//2), cv2.FONT_HERSHEY_DUPLEX, 3, (235, 107, 52), 3)
+            cv2.putText(image, "Ok", (w//2 ,h//2), cv2.FONT_HERSHEY_DUPLEX, 3, (235, 107, 52), 3)
     else:
         prev_time = time.time()
     cv2.putText(image, mytext, (10, h - 50), cv2.FONT_HERSHEY_DUPLEX, 3, (235, 143, 52), 3)
