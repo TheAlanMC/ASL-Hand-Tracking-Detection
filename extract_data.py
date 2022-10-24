@@ -43,7 +43,7 @@ def image_processed(file_path):
             i = i.strip()
             clean.append(i[2:])
 
-        # Convertimos los datos a float
+        # Eliminamos el eje z
         finalClean = []
         for i in range(0, len(clean)):
             if (i+1) % 3 != 0:
@@ -59,41 +59,6 @@ def make_csv():
     # Creamos un dataframe vacío
     mypath = 'asl_test'
     file_name = open('american_test.csv', 'w')
-
-    # Recorremos las carpetas
-    for root, dirs, files in os.walk(mypath):
-        dirs.sort()
-        # Recorremos los archivos
-        for file in files:
-            if file.endswith('.jpeg'):
-                file_path = os.path.join(root, file)
-                print(file_path)
-
-                # Nos quedamos con el nombre de la carpeta
-                label = file_path.split('/')[1].upper()
-
-                # Procesamos la imagen
-                data = image_processed(file_path)
-
-
-                for i in data:
-                    # Añadimos los datos al csv
-                    file_name.write(str(i))
-                    file_name.write(',') 
-
-                # Añadimos la etiqueta
-                file_name.write(label)
-                file_name.write('\n')
-
-    # Cerramos el archivo
-    file_name.close()
-    print('CSV creado')
-
-def make_test_csv():
-    
-    # Creamos un dataframe vacío
-    mypath = 'asl_train'
-    file_name = open('american_train.csv', 'w')
 
     # Recorremos las carpetas
     for root, dirs, files in os.walk(mypath):
@@ -126,4 +91,3 @@ def make_test_csv():
     
 if __name__ == "__main__":
     make_csv()
-    make_test_csv()

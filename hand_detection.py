@@ -35,7 +35,7 @@ def data_clean(landmark):
         i = i.strip()
         clean.append(i[2:])
 
-    # Convertimos los datos a float
+    # Eliminamos el eje z
     finalClean = []
     for i in range(0, len(clean)):
       if (i+1) % 3 != 0:
