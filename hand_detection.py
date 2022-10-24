@@ -97,8 +97,8 @@ while cap.isOpened():
                 # os.system("mpyg321 text.mp3")
                 player.play_song("text.mp3")
                 mytext = ''
-            else:
-                cv2.putText(image, str(y_pred[0]), (w-10, 70), cv2.FONT_HERSHEY_DUPLEX, 3, (52, 195, 235), 3)
+            elif (str(y_pred[0]) != 'SPACE'):
+                cv2.putText(image, str(y_pred[0]), (w-200, 70), cv2.FONT_HERSHEY_DUPLEX, 3, (52, 195, 235), 3)
                 curr_time = time.time()
                 diff_time = curr_time - prev_time
                 if diff_time < 1:
