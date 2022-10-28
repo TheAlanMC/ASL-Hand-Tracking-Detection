@@ -6,5 +6,4 @@
 https://www.kaggle.com/datasets/grassknoted/asl-alphabet
 
 ## FUNCIONAMIENTO EN RASPBERRY PI
-![image](https://user-images.githubusercontent.com/102682441/197424969-e029911e-adb1-49fb-b6dc-52a17f476df4.png)
-
+![image](https://user-images.githubusercontent.com/102682441/198714792-3143e345-dfd5-43d1-be02-24fcb869939a.png)
